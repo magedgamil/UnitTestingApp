@@ -193,12 +193,58 @@ public class SalarySlipProcessorTest
     }
 
 
-    //public decimal CalculateDangerPay(Employee employee)
-    //{
+    [Fact]
+    public void CalculateSpouseAllowance_ForEmployeeIsNull_ThrowArgumentNullException()
+    {
+        // Arrange
+        Employee? employee = null;
+
+        // Act
+        var salarySlipProcessor = new SalarySlipProcessor(null);
+
+        // Assert
+        Assert.Throws<ArgumentNullException>(() => salarySlipProcessor.CalculateSpouseAllowance(employee));
+    }
+
+    [Fact]
+    public void CalculateSpouseAllowance_ForEmployeeMarried_SpouseAllowance()
+    {
+        //arange 
+
+        var employee = new Employee
+        {
+            IsMarried = true
+        };
+
+        //act
+        var salarySlipProcessor = new SalarySlipProcessor(null);
+        var actual = salarySlipProcessor.CalculateSpouseAllowance(employee);
+        var expected = Constants.SpouseAllowanceAmount;
+        //assert
+
+        Assert.Equal(expected, actual);
+    }
 
 
+    [Fact]
+    public void CalculateSpouseAllowance_ForEmployeeNoMarried_SpouseAllowance()
+    {
+        //arange 
 
-    //    return 0m;
-    //}
+        var employee = new Employee
+        {
+            IsMarried = false
+        };
+
+        //act
+        var salarySlipProcessor = new SalarySlipProcessor(null);
+        var actual = salarySlipProcessor.CalculateSpouseAllowance(employee);
+        var expected = 0m;
+        //assert
+
+        Assert.Equal(expected, actual);
+    }
+
+
 
 }
